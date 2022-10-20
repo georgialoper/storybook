@@ -2,10 +2,11 @@ import { sync as readUpSync } from 'read-pkg-up';
 import { logger } from '@storybook/node-logger';
 import { buildStaticStandalone } from '@storybook/core-server';
 import { cache } from '@storybook/core-common';
+import { withTelemetry } from './withTelemetry';
 
 export const build = async (cliOptions: any) => {
   try {
-    await buildStaticStandalone({
+    const options = {
       ...cliOptions,
       configDir: cliOptions.configDir || './.storybook',
       outputDir: cliOptions.outputDir || './storybook-static',
@@ -14,9 +15,14 @@ export const build = async (cliOptions: any) => {
       configType: 'PRODUCTION',
       cache,
       packageJson: readUpSync({ cwd: __dirname }).packageJson,
+    };
+    await withTelemetry('build', options, async () => {
+      // send event
+      await buildStaticStandalone(options);
     });
-  } catch (e) {
-    logger.error(e);
+  } catch (err) {
+    // send error
+    logger.error(err);
     process.exit(1);
   }
 };

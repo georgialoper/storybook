@@ -7,6 +7,8 @@ import { sanitizeError } from './sanitize';
 
 export * from './storybook-metadata';
 
+export * from './types';
+
 export const telemetry = async (
   eventType: EventType,
   payload: Payload = {},
