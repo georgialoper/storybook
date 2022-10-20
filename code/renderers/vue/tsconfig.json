@@ -4,6 +4,6 @@
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "template/**/*", "**/*.vue"],
   "exclude": ["src/**/*.test.*"]
 }

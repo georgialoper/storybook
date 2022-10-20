@@ -1,4 +1,4 @@
-import type { StoryContext as StoryContextBase } from '@storybook/csf';
+import type { AnyFramework, StoryContext as StoryContextBase } from '@storybook/csf';
 import type { ConcreteComponent } from 'vue';
 
 export type { RenderContext } from '@storybook/core-client';
@@ -12,7 +12,7 @@ export type StoryFnVueReturnType = ConcreteComponent<any>;
 
 export type StoryContext = StoryContextBase<VueFramework>;
 
-export type VueFramework = {
-  component: ConcreteComponent<any>;
+export interface VueFramework extends AnyFramework {
+  component: Omit<ConcreteComponent<this['T']>, 'props'>;
   storyResult: StoryFnVueReturnType;
-};
+}
